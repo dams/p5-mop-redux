@@ -159,6 +159,7 @@ sub __INIT_METACLASS__ {
 
     $METACLASS->add_method( mop::method->new( name => 'name',                body => \&name                ) );
     $METACLASS->add_method( mop::method->new( name => 'key_name',            body => \&key_name            ) );
+    $METACLASS->add_method( mop::method->new( name => 'is_required',         body => \&is_required         ) );
     $METACLASS->add_method( mop::method->new( name => 'has_default',         body => \&has_default         ) );
     $METACLASS->add_method( mop::method->new( name => 'get_default',         body => \&get_default         ) );
     $METACLASS->add_method( mop::method->new( name => 'storage',             body => \&storage             ) );
