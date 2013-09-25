@@ -14,6 +14,7 @@ use parent 'mop::object', 'mop::observable';
 init_attribute_storage(my %name);
 init_attribute_storage(my %original_id);
 init_attribute_storage(my %default);
+init_attribute_storage(my %required);
 init_attribute_storage(my %storage);
 init_attribute_storage(my %associated_meta);
 
@@ -41,6 +42,9 @@ sub key_name {
     my $self = shift;
     substr( $self->name, 2, length $self->name )
 }
+
+sub set_required { $required{ $_[0] } = 1 }
+sub is_required { $required{ $_[0] } }
 
 # NOTE:
 # need to do a double de-ref for the
@@ -103,10 +107,14 @@ sub store_data_in_slot_for {
 
 sub store_default_in_slot_for {
     my ($self, $instance) = @_;
-    $self->store_data_in_slot_for($instance, do {
-        local $_ = $instance;
-        $self->get_default;
-    }) if $self->has_default;
+    if ($self->has_default) {
+        $self->is_required
+          and die "'default' and 'required' trait are mutually exclusive";
+        $self->store_data_in_slot_for($instance, do {
+            local $_ = $instance;
+            $self->get_default;
+        });
+    };
 }
 
 our $METACLASS;

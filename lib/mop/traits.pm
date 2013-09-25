@@ -52,6 +52,14 @@ sub ro {
     }
 }
 
+sub required {
+    if ($_[0]->isa('mop::attribute')) {
+        my ($attr) = @_;
+        my $meta = $attr->associated_meta;
+        $meta->set_required;
+    }
+}
+
 sub abstract {
     if ($_[0]->isa('mop::class')) {
         my $meta = shift;

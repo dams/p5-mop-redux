@@ -86,6 +86,8 @@ sub new_instance {
             $attr->store_data_in_slot_for( $instance, $args{ $attr->key_name } )
         } else {
             $attr->store_default_in_slot_for( $instance );
+            $attr->is_required()
+              and die "attribute '" . $attr->name . "' is requried, but no value was provided, when creating instance for class '" . $self->name . "'.";
         }
     }
 
