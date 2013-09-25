@@ -9,6 +9,7 @@ our $AUTHORITY = 'cpan:STEVAN';
 our @AVAILABLE_TRAITS = qw[
     rw
     ro
+    required
     weak_ref
     lazy
     abstract
@@ -55,8 +56,7 @@ sub ro {
 sub required {
     if ($_[0]->isa('mop::attribute')) {
         my ($attr) = @_;
-        my $meta = $attr->associated_meta;
-        $meta->set_required;
+        $attr->set_required;
     }
 }
 
